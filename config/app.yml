@@ -1,0 +1,14 @@
+app:
+  name: gogochat
+  host: localhost
+  port: 8090
+  mode: debug
+
+database:
+  driver: mysql
+  user: root
+  password: 123456
+  host: 127.0.0.1
+  port: 3306
+  name: gogo_chat
+  show_sql: true

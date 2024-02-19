@@ -1,0 +1,13 @@
+info:
+  contact: {}
+paths:
+  /hello:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      tags:
+      - hello
+swagger: "2.0"
