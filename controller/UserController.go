@@ -17,6 +17,7 @@ func (uc *UserController) Router(engine *gin.Engine) {
 	engine.GET("/user/create", uc.createUser)
 	engine.GET("/user/update", uc.update)
 	engine.DELETE("/user/delete", uc.deleteUser)
+	engine.GET("/user/login", uc.login)
 }
 
 func (uc *UserController) createUser(context *gin.Context) {
@@ -50,7 +51,9 @@ func (uc *UserController) createUser(context *gin.Context) {
 		return
 	}
 
-	user := models.UserBasic{Password: password, Email: email, Phone: phone, Name: name}
+	hashPwd := tool.HashPasswordSha256(password)
+
+	user := models.UserBasic{Password: hashPwd, Email: email, Phone: phone, Name: name}
 	userService := service.NewUserService()
 	err := userService.CreateUser(&user)
 	if err != nil {
@@ -72,8 +75,8 @@ func (uc *UserController) update(context *gin.Context) {
 		tool.Failed(context, "id解析失败")
 		return
 	}
-
-	user := models.UserBasic{Password: password, Email: email, Phone: phone}
+	hashPwd := tool.HashPasswordSha256(password)
+	user := models.UserBasic{Password: hashPwd, Email: email, Phone: phone}
 
 	_, err = govalidator.ValidateStruct(&user)
 	if err != nil {
@@ -107,4 +110,23 @@ func (uc *UserController) deleteUser(context *gin.Context) {
 	}
 
 	tool.Success(context, "删除成功")
+}
+
+func (uc *UserController) login(context *gin.Context) {
+	name := context.Query("name")
+	pwd := context.Query("password")
+
+	userDao := dao.NewUserDao()
+	user := userDao.FindUserByName(name)
+	if user.ID == 0 {
+		tool.Failed(context, "用户不存在")
+		return
+	}
+
+	isValid := tool.ValidHashPassword(pwd, user.Password)
+	if !isValid {
+		tool.Failed(context, "登录密码错误")
+		return
+	}
+	tool.Success(context, "登录成功")
 }

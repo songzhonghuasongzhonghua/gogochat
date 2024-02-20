@@ -7,7 +7,7 @@ import (
 type UserBasic struct {
 	gorm.Model
 	Name          string `gorm:"type:varchar(20)" json:"name"`
-	Password      string `gorm:"type:varchar(20)" json:"password"`
+	Password      string `gorm:"type:varchar(255)" json:"password"`
 	Phone         string `gorm:"type:varchar(11)" json:"phone" valid:"matches(^1[3-9]{1}\\d{9}$)"`
 	Email         string `gorm:"type:varchar(100)" json:"email" valid:"email"`
 	Identity      string `gorm:"type:varchar(255)" json:"identity"`
