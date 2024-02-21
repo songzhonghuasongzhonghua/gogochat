@@ -128,5 +128,7 @@ func (uc *UserController) login(context *gin.Context) {
 		tool.Failed(context, "登录密码错误")
 		return
 	}
-	tool.Success(context, "登录成功")
+
+	token, _ := tool.GenerateJwt(name)
+	tool.Success(context, token)
 }

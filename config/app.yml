@@ -12,3 +12,10 @@ database:
   port: 3306
   name: gogo_chat
   show_sql: true
+
+redis:
+  addr: 127.0.0.1
+  port: 6379
+  password: ""
+  db: 0
+

@@ -8,6 +8,7 @@ import (
 type Config struct {
 	App      App
 	Database Database
+	Redis    RedisConfig
 }
 
 type App struct {
@@ -24,6 +25,13 @@ type Database struct {
 	Port     string
 	Name     string
 	ShowSql  bool
+}
+
+type RedisConfig struct {
+	Addr     string
+	Port     string
+	Password string
+	Db       int
 }
 
 var _cfg Config

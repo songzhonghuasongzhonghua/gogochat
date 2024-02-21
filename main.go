@@ -22,6 +22,8 @@ func main() {
 	tool.InitDB(config)
 	//初始化swagger
 	tool.InitSwagger(engine)
+	//初始化redis
+	tool.InitRedis(config)
 
 	engine.Run(":" + config.App.Port)
 }
